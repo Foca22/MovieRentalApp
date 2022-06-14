@@ -1,28 +1,29 @@
 package com.application.movierentalapp.model.customer;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 import static javax.persistence.GenerationType.IDENTITY;
 
 @Entity
+@Table(name = "customer_review")
 public class CustomerReview {
 
     @Id
     @GeneratedValue(strategy = IDENTITY)
-    @Column(name = "ID Customer Review", updatable = false, nullable = false)
+    @Column(name = "id_customer_review", updatable = false, nullable = false)
     private Integer id;
 
-    @Column(name = "Title", nullable = false)
+    @Column(name = "title", nullable = false)
     private String title;
 
-    @Column(name = "Number of Stars", nullable = false)
+    @Column(name = "number_of_stars", nullable = false)
     private Integer numberOfStars;
 
-    @Column(name = "Text", nullable = false)
+    @Column(name = "text", nullable = false)
     private String text;
+
+    @ManyToOne
+    private Customer customer;
 
     public CustomerReview() {
     }
@@ -64,6 +65,14 @@ public class CustomerReview {
 
     public void setText(String text) {
         this.text = text;
+    }
+
+    public Customer getCustomer() {
+        return customer;
+    }
+
+    public void setCustomer(Customer customer) {
+        this.customer = customer;
     }
 
     @Override

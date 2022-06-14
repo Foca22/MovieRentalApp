@@ -1,14 +1,19 @@
 package com.application.movierentalapp.model.movie;
 
+import com.application.movierentalapp.model.customer.Customer;
+
 import javax.persistence.*;
+
+import java.util.Set;
 
 import static javax.persistence.GenerationType.IDENTITY;
 
 @Entity
+@Table(name = "movie")
 public class Movie {
     @Id
     @GeneratedValue(strategy = IDENTITY)
-    @Column(name = "movie_id", updatable = false, nullable = false)
+    @Column(name = "id_movie", updatable = false, nullable = false)
     private Integer id;
 
     @Column(name = "name", nullable = false, length = 200)
@@ -20,14 +25,20 @@ public class Movie {
     private float price;
 
     @Enumerated(EnumType.STRING)
-    private MovieGenre genre;
+    private MovieGenres genre;
 
     boolean rented;
+
+    @ManyToMany(mappedBy = "rentedMovies")
+    private Set<Customer> customers;
+
+    @ManyToMany(mappedBy = "movieListByGenre")
+    private Set<MovieGene> movieGeneSet;
 
     public Movie() {
     }
 
-    public Movie(String name, Integer releaseYear, float price, MovieGenre genre) {
+    public Movie(String name, Integer releaseYear, float price, MovieGenres genre) {
         this.name = name;
         this.releaseYear = releaseYear;
         this.price = price;
@@ -58,7 +69,7 @@ public class Movie {
         this.price = price;
     }
 
-    public MovieGenre getGenre() {
+    public MovieGenres getGenre() {
         return genre;
     }
 

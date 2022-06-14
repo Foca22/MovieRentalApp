@@ -8,6 +8,8 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class UpdateMovieRequest {
+
     private Integer id;
+
     private float price;
 }
