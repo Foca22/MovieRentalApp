@@ -2,19 +2,19 @@ package com.application.movierentalapp.model.movie;
 
 public class GenreCount {
 
-    private MovieGenre genre;
+    private MovieGenres genre;
     private Long count;
 
-    public GenreCount(MovieGenre genre, Long count) {
+    public GenreCount(MovieGenres genre, Long count) {
         this.genre = genre;
         this.count = count;
     }
 
-    public MovieGenre getGenre() {
+    public MovieGenres getGenre() {
         return genre;
     }
 
-    public void setGenre(MovieGenre genre) {
+    public void setGenre(MovieGenres genre) {
         this.genre = genre;
     }
 

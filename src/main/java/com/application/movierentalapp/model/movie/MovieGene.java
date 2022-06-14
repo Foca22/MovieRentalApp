@@ -3,29 +3,36 @@ package com.application.movierentalapp.model.movie;
 import javax.persistence.*;
 
 import java.util.List;
+import java.util.Set;
 
 import static javax.persistence.GenerationType.IDENTITY;
 
 @Entity
-public class MovieGeners {
+@Table(name = "movie_genre")
+public class MovieGene {
 
     @Id
     @GeneratedValue(strategy = IDENTITY)
-    @Column(name = "ID Movie Genere", updatable = false, nullable = false)
+    @Column(name = "id_movie_genre", updatable = false, nullable = false)
     private Integer id;
 
     @Enumerated(EnumType.STRING)
-    private MovieGenre genre;
+    private MovieGenres genre;
 
     //vezi cum se face relatia!!!!
-    @ManyToMany
-    @JoinColumn(name = "ID Movie Genere")
-    private List<Movie> movieListByGenre;
+    @ManyToMany(cascade = CascadeType.ALL)
+    @JoinTable(name = "movies_by_movie_genre",
+            joinColumns = {@JoinColumn(name = "id_movie")},
+            inverseJoinColumns = {@JoinColumn(name = "id_movie_genre")}
+    )
+    private Set<Movie> movieListByGenre;
 
-    public MovieGeners() {
+
+
+    public MovieGene() {
     }
 
-    public MovieGeners(Integer movieGenreId, MovieGenre genre, List<Movie> movieListByGenre) {
+    public MovieGene(Integer movieGenreId, MovieGenres genre, Set<Movie> movieListByGenre) {
         this.id = movieGenreId;
         this.genre = genre;
         this.movieListByGenre = movieListByGenre;
@@ -39,19 +46,19 @@ public class MovieGeners {
         this.id = movieGenreId;
     }
 
-    public MovieGenre getGenre() {
+    public MovieGenres getGenre() {
         return genre;
     }
 
-    public void setGenre(MovieGenre genre) {
+    public void setGenre(MovieGenres genre) {
         this.genre = genre;
     }
 
-    public List<Movie> getMovieListByGenre() {
+    public Set<Movie> getMovieListByGenre() {
         return movieListByGenre;
     }
 
-    public void setMovieListByGenre(List<Movie> movieListByGenre) {
+    public void setMovieListByGenre(Set<Movie> movieListByGenre) {
         this.movieListByGenre = movieListByGenre;
     }
 

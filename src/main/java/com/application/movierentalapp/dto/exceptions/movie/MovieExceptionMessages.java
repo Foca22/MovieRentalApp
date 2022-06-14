@@ -1,6 +1,6 @@
-package com.application.movierentalapp.dto.exceptions;
+package com.application.movierentalapp.dto.exceptions.movie;
 
-public class ExceptionMessages {
+public class MovieExceptionMessages {
     public static final String MOVIE_ALREADY_RENTED = "Movie already rented!";
     public static final String MOVIE_ALREADY_RELEASED = "Movie already released!";
     public static final String MOVIE_NOT_FOUND = "Movie not found!";

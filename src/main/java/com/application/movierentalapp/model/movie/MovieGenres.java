@@ -1,6 +1,6 @@
 package com.application.movierentalapp.model.movie;
 
-public enum MovieGenre {
+public enum MovieGenres {
     COMEDY,
     DRAMA,
     THRILLER;

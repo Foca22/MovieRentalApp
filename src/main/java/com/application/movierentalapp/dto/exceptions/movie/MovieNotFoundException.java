@@ -1,4 +1,4 @@
-package com.application.movierentalapp.dto.exceptions;
+package com.application.movierentalapp.dto.exceptions.movie;
 
 public class MovieNotFoundException extends Exception {
 

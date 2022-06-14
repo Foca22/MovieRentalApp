@@ -1,9 +1,9 @@
 package com.application.movierentalapp.service;
 
-import com.application.movierentalapp.dto.exceptions.MovieIsReleasedException;
-import com.application.movierentalapp.dto.exceptions.MovieIsRentedException;
-import com.application.movierentalapp.dto.exceptions.MovieNotFoundException;
-import com.application.movierentalapp.dto.exceptions.PriceOutOfIntervalException;
+import com.application.movierentalapp.dto.exceptions.movie.MovieIsReleasedException;
+import com.application.movierentalapp.dto.exceptions.movie.MovieIsRentedException;
+import com.application.movierentalapp.dto.exceptions.movie.MovieNotFoundException;
+import com.application.movierentalapp.dto.exceptions.movie.PriceOutOfIntervalException;
 import com.application.movierentalapp.dto.movie.request.CreateMovieRequest;
 import com.application.movierentalapp.dto.movie.request.UpdateMovieRequest;
 import com.application.movierentalapp.dto.movie.response.MovieResponse;
