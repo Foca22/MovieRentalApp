@@ -6,23 +6,25 @@ import com.application.movierentalapp.dto.customer.response.CustomerResponse;
 import com.application.movierentalapp.dto.exceptions.customer.CustomerNotFoundException;
 import com.application.movierentalapp.model.customer.Customer;
 import com.application.movierentalapp.service.CustomerService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
-@RequestMapping("api/customer")
+@RequiredArgsConstructor
+@RequestMapping(value = "api/customer")
 public class CustomerController {
 
-    @Autowired
-    CustomerService customerService;
+    private final CustomerService customerService;
 
     //validari pt creare customer
     @PostMapping()
-    ResponseEntity createCustomer(@RequestBody CreateCustomerRequest createCustomerRequest) {
+    ResponseEntity createCustomer(@Valid @RequestBody CreateCustomerRequest createCustomerRequest) {
         CustomerResponse customerResponse = customerService.createCustomer(createCustomerRequest);
         return ResponseEntity.ok(customerResponse);
     }

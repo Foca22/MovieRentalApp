@@ -7,7 +7,10 @@ import com.application.movierentalapp.dto.exceptions.movie.PriceOutOfIntervalExc
 import com.application.movierentalapp.dto.movie.request.CreateMovieRequest;
 import com.application.movierentalapp.dto.movie.request.UpdateMovieRequest;
 import com.application.movierentalapp.dto.movie.response.MovieResponse;
+import com.application.movierentalapp.model.movie.Movie;
 import com.application.movierentalapp.service.MovieService;
+import com.application.movierentalapp.service.impl.MovieServiceImpl;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -16,11 +19,12 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("api/movie")
+@RequiredArgsConstructor
+@RequestMapping(value = "api/movie")
 public class MovieController {
 
-    @Autowired
-    MovieService movieService;
+    private final MovieService movieService;
+
 
     @PostMapping()
     ResponseEntity createMovie(@RequestBody CreateMovieRequest createMovieRequest) {
@@ -50,13 +54,13 @@ public class MovieController {
         return ResponseEntity.ok(movieResponseList);
     }
 
-    @GetMapping("countByGenre")
+    @GetMapping("/count-by-genre")
     ResponseEntity getMovieCountByGenre() {
         String movieCountByGenre = movieService.getMovieCountByGenre();
         return ResponseEntity.ok(movieCountByGenre);
     }
 
-    @PutMapping("rent/{id}")
+    @PutMapping("/rent/{id}")
     ResponseEntity rentMovie(@PathVariable Integer id) {
         try {
             MovieResponse movieResponse = movieService.rentMovie(id);
@@ -68,7 +72,7 @@ public class MovieController {
         }
     }
 
-    @PutMapping("release/{id}")
+    @PutMapping("/release/{id}")
     ResponseEntity releaseMovie(@PathVariable Integer id) {
         try {
             MovieResponse movieResponse = movieService.releaseMovie(id);
@@ -80,7 +84,7 @@ public class MovieController {
         }
     }
 
-    @GetMapping("rented")
+    @GetMapping("/rented")
     ResponseEntity getRentedMovies() {
         List<MovieResponse> movieResponseList = movieService.getRentedMovies();
         return ResponseEntity.ok(movieResponseList);

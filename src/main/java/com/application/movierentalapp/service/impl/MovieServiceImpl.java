@@ -22,8 +22,13 @@ import java.util.stream.Collectors;
 @Service
 public class MovieServiceImpl implements MovieService {
 
+
+    private final MovieRepo movieRepo;
+
     @Autowired
-    MovieRepo movieRepo;
+    public MovieServiceImpl(MovieRepo movieRepo) {
+        this.movieRepo = movieRepo;
+    }
 
     @Override
     public MovieResponse createMovie(CreateMovieRequest createMovieRequest) throws PriceOutOfIntervalException {

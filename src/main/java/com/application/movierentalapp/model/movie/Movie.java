@@ -4,6 +4,7 @@ import com.application.movierentalapp.model.customer.Customer;
 
 import javax.persistence.*;
 
+import java.util.HashSet;
 import java.util.Set;
 
 import static javax.persistence.GenerationType.IDENTITY;
@@ -13,7 +14,7 @@ import static javax.persistence.GenerationType.IDENTITY;
 public class Movie {
     @Id
     @GeneratedValue(strategy = IDENTITY)
-    @Column(name = "id_movie", updatable = false, nullable = false)
+    @Column(name = "movie_id", updatable = false, nullable = false)
     private Integer id;
 
     @Column(name = "name", nullable = false, length = 200)
@@ -22,18 +23,20 @@ public class Movie {
     @Column(name = "release_year", nullable = false)
     private Integer releaseYear;
 
+    @Column(name="price", nullable = false)
     private float price;
 
     @Enumerated(EnumType.STRING)
     private MovieGenres genre;
 
+    @Column(name = "rented")
     boolean rented;
 
     @ManyToMany(mappedBy = "rentedMovies")
-    private Set<Customer> customers;
+    private Set<Customer> customers = new HashSet<>();
 
-    @ManyToMany(mappedBy = "movieListByGenre")
-    private Set<MovieGene> movieGeneSet;
+    @ManyToMany(mappedBy = "moviesByGenre")
+    private Set<MovieGenre> movieGenres = new HashSet<>();
 
     public Movie() {
     }
@@ -45,20 +48,28 @@ public class Movie {
         this.genre = genre;
     }
 
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
     public Integer getId() {
         return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
     }
 
     public String getName() {
         return name;
     }
 
+    public void setName(String name) {
+        this.name = name;
+    }
+
     public Integer getReleaseYear() {
         return releaseYear;
+    }
+
+    public void setReleaseYear(Integer releaseYear) {
+        this.releaseYear = releaseYear;
     }
 
     public float getPrice() {
@@ -73,11 +84,27 @@ public class Movie {
         return genre;
     }
 
+    public void setGenre(MovieGenres genre) {
+        this.genre = genre;
+    }
+
     public boolean isRented() {
         return rented;
     }
 
     public void setRented(boolean rented) {
         this.rented = rented;
+    }
+
+    @Override
+    public String toString() {
+        return "Movie{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", releaseYear=" + releaseYear +
+                ", price=" + price +
+                ", genre=" + genre +
+                ", rented=" + rented +
+                '}';
     }
 }

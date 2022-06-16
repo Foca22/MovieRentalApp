@@ -16,41 +16,39 @@ public class Customer {
 
     @Id
     @GeneratedValue(strategy = IDENTITY)
-    @Column(name = "id_customer", updatable = false, nullable = false)
+    @Column(name = "customer_id", updatable = false, nullable = false)
     private Integer id;
 
     @Column(name = "first_name", nullable = false)
     private String firstName;
 
-    @Column(name = "last_ame", nullable = false)
+    @Column(name = "last_name", nullable = false)
     private String lastName;
 
     @Column(name = "email", nullable = false)
     private String email;
 
-    @Column(name = "telephone", nullable = false)
-    private Integer telephoneNumber;
+    @Column(name = "phone_number", nullable = false)
+    private String phoneNumber;
 
-    @OneToMany
-    @JoinColumn(name = "id_customer_review")
-    private List<CustomerReview> customerReviewsList;
+    @OneToMany(mappedBy = "customer")
+    private Set<Review> customerReviews;
 
     @ManyToMany(cascade = {CascadeType.ALL})
     @JoinTable(
-            name = "customer_movies",
-            joinColumns = {@JoinColumn(name = "id_customer")},
-            inverseJoinColumns = {@JoinColumn(name = "movie_id")}
-    )
-    private Set<Movie> rentedMovies;
+            name = "rented_movies",
+            joinColumns = {@JoinColumn(name = "customer_id")},
+            inverseJoinColumns = {@JoinColumn(name = "movie_id")})
+    private Set<Movie> rentedMovies = new HashSet<>();
 
     public Customer() {
     }
 
-    public Customer(String firstName, String lastName, String email, Integer telephoneNumber) {
+    public Customer(String firstName, String lastName, String email, String phoneNumber) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
-        this.telephoneNumber = telephoneNumber;
+        this.phoneNumber = phoneNumber;
     }
 
     public Integer getId() {
@@ -81,28 +79,12 @@ public class Customer {
         this.email = email;
     }
 
-    public Integer getTelephoneNumber() {
-        return telephoneNumber;
+    public String getPhoneNumber() {
+        return phoneNumber;
     }
 
-    public void setTelephoneNumber(Integer telephoneNumber) {
-        this.telephoneNumber = telephoneNumber;
-    }
-
-    public List<CustomerReview> getCustomerReviewsList() {
-        return customerReviewsList;
-    }
-
-    public void setCustomerReviewsList(List<CustomerReview> customerReviewsList) {
-        this.customerReviewsList = customerReviewsList;
-    }
-
-    public Set<Movie> getMovies() {
-        return rentedMovies;
-    }
-
-    public void setMovies(Set<Movie> rentedMovies) {
-        this.rentedMovies = rentedMovies;
+    public void setPhoneNumber(String telephoneNumber) {
+        this.phoneNumber = phoneNumber;
     }
 
     @Override
@@ -112,8 +94,7 @@ public class Customer {
                 ", firstName='" + firstName + '\'' +
                 ", lastName='" + lastName + '\'' +
                 ", email='" + email + '\'' +
-                ", customerReviewsList=" + customerReviewsList +
-                ", movies=" + rentedMovies +
+                ", phoneNumber='" + phoneNumber + '\'' +
                 '}';
     }
 }

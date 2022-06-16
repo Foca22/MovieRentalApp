@@ -19,5 +19,5 @@ public class CustomerResponse {
 
     private String email;
 
-    private Integer telephoneNumber;
+    private String phoneNumber;
 }

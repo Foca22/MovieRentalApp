@@ -1,13 +1,14 @@
 package com.application.movierentalapp.service;
 
-import com.application.movierentalapp.dto.exceptions.*;
+import com.application.movierentalapp.dto.exceptions.movie.*;
 import com.application.movierentalapp.dto.movie.request.CreateMovieRequest;
 import com.application.movierentalapp.dto.movie.request.UpdateMovieRequest;
 import com.application.movierentalapp.dto.movie.response.MovieResponse;
 import com.application.movierentalapp.model.movie.GenreCount;
 import com.application.movierentalapp.model.movie.Movie;
-import com.application.movierentalapp.model.movie.MovieGenre;
+import com.application.movierentalapp.model.movie.MovieGenres;
 import com.application.movierentalapp.repository.MovieRepo;
+import com.application.movierentalapp.service.impl.MovieServiceImpl;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -36,7 +37,7 @@ class MovieServiceImplTest {
     private static final String movieName = "The Godfather";
     private static final Integer releaseYear = 1972;
     private static final float price = 4;
-    private static final MovieGenre genre = MovieGenre.DRAMA;
+    private static final MovieGenres genre = MovieGenres.DRAMA;
 
     @BeforeEach
     public void setUp() {
@@ -108,7 +109,7 @@ class MovieServiceImplTest {
 
         Exception exception = assertThrows(PriceOutOfIntervalException.class, () -> movieService.createMovie(createMovieRequest));
 
-        String expectedMessage = ExceptionMessages.BAD_PRICE_FOR_MOVIE_LESS_THAN_2010;
+        String expectedMessage = MovieExceptionMessages.BAD_PRICE_FOR_MOVIE_LESS_THAN_2010;
         String actualMessage = exception.getMessage();
 
         assertTrue(actualMessage.contains(expectedMessage));
@@ -121,7 +122,7 @@ class MovieServiceImplTest {
 
         Exception exception = assertThrows(PriceOutOfIntervalException.class, () -> movieService.createMovie(createMovieRequest));
 
-        String expectedMessage = ExceptionMessages.BAD_PRICE_FOR_MOVIE_BETWEEN_2010_AND_2020;
+        String expectedMessage = MovieExceptionMessages.BAD_PRICE_FOR_MOVIE_BETWEEN_2010_AND_2020;
         String actualMessage = exception.getMessage();
 
         assertTrue(actualMessage.contains(expectedMessage));
@@ -134,7 +135,7 @@ class MovieServiceImplTest {
 
         Exception exception = assertThrows(PriceOutOfIntervalException.class, () -> movieService.createMovie(createMovieRequest));
 
-        String expectedMessage = ExceptionMessages.BAD_PRICE_FOR_MOVIE_BIGGER_THAN_2020;
+        String expectedMessage = MovieExceptionMessages.BAD_PRICE_FOR_MOVIE_BIGGER_THAN_2020;
         String actualMessage = exception.getMessage();
 
         assertTrue(actualMessage.contains(expectedMessage));
@@ -206,7 +207,7 @@ class MovieServiceImplTest {
 
         Exception exception = assertThrows(PriceOutOfIntervalException.class, () -> movieService.updateMoviePrice(updateMovieRequest));
 
-        String expectedMessage = ExceptionMessages.BAD_PRICE_FOR_MOVIE_LESS_THAN_2010;
+        String expectedMessage = MovieExceptionMessages.BAD_PRICE_FOR_MOVIE_LESS_THAN_2010;
         String actualMessage = exception.getMessage();
 
         assertTrue(actualMessage.contains(expectedMessage));
@@ -224,7 +225,7 @@ class MovieServiceImplTest {
 
         Exception exception = assertThrows(PriceOutOfIntervalException.class, () -> movieService.updateMoviePrice(updateMovieRequest));
 
-        String expectedMessage = ExceptionMessages.BAD_PRICE_FOR_MOVIE_BETWEEN_2010_AND_2020;
+        String expectedMessage = MovieExceptionMessages.BAD_PRICE_FOR_MOVIE_BETWEEN_2010_AND_2020;
         String actualMessage = exception.getMessage();
 
         assertTrue(actualMessage.contains(expectedMessage));
@@ -242,7 +243,7 @@ class MovieServiceImplTest {
 
         Exception exception = assertThrows(PriceOutOfIntervalException.class, () -> movieService.updateMoviePrice(updateMovieRequest));
 
-        String expectedMessage = ExceptionMessages.BAD_PRICE_FOR_MOVIE_BIGGER_THAN_2020;
+        String expectedMessage = MovieExceptionMessages.BAD_PRICE_FOR_MOVIE_BIGGER_THAN_2020;
         String actualMessage = exception.getMessage();
 
         assertTrue(actualMessage.contains(expectedMessage));
@@ -257,7 +258,7 @@ class MovieServiceImplTest {
 
         Exception exception = assertThrows(MovieNotFoundException.class, () -> movieService.updateMoviePrice(updateMovieRequest));
 
-        String expectedMessage = ExceptionMessages.MOVIE_NOT_FOUND;
+        String expectedMessage = MovieExceptionMessages.MOVIE_NOT_FOUND;
         String actualMessage = exception.getMessage();
 
         assertTrue(actualMessage.contains(expectedMessage));
@@ -266,7 +267,7 @@ class MovieServiceImplTest {
     @Test
     public void shouldGetAllMovies() {
         Movie movie1 = new Movie(movieName, releaseYear, price, genre);
-        Movie movie2 = new Movie("movieName2", 1980, 5, MovieGenre.THRILLER);
+        Movie movie2 = new Movie("movieName2", 1980, 5, MovieGenres.THRILLER);
 
         when(movieRepo.findAll(any(Sort.class))).thenReturn(Arrays.asList(movie1, movie2));
 
@@ -277,8 +278,8 @@ class MovieServiceImplTest {
 
     @Test
     public void shouldGetMovieCountByGenre() {
-        GenreCount genreCount1 = new GenreCount(MovieGenre.COMEDY, 1L);
-        GenreCount genreCount2 = new GenreCount(MovieGenre.DRAMA, 4L);
+        GenreCount genreCount1 = new GenreCount(MovieGenres.COMEDY, 1L);
+        GenreCount genreCount2 = new GenreCount(MovieGenres.DRAMA, 4L);
 
         List<GenreCount> genreCounts = new ArrayList<>();
         genreCounts.add(genreCount1);
@@ -322,7 +323,7 @@ class MovieServiceImplTest {
 
         Exception exception = assertThrows(MovieIsRentedException.class, () -> movieService.rentMovie(movie.getId()));
 
-        String expectedMessage = ExceptionMessages.MOVIE_ALREADY_RENTED;
+        String expectedMessage = MovieExceptionMessages.MOVIE_ALREADY_RENTED;
         String actualMessage = exception.getMessage();
 
         assertTrue(actualMessage.contains(expectedMessage));
@@ -356,7 +357,7 @@ class MovieServiceImplTest {
 
         Exception exception = assertThrows(MovieIsReleasedException.class, () -> movieService.releaseMovie(movie.getId()));
 
-        String expectedMessage = ExceptionMessages.MOVIE_ALREADY_RELEASED;
+        String expectedMessage = MovieExceptionMessages.MOVIE_ALREADY_RELEASED;
         String actualMessage = exception.getMessage();
 
         assertTrue(actualMessage.contains(expectedMessage));
@@ -366,7 +367,7 @@ class MovieServiceImplTest {
     public void shouldGetAllRentedMovies() {
         Movie movie1 = new Movie(movieName, releaseYear, price, genre);
         movie1.setRented(true);
-        Movie movie2 = new Movie("movieName2", 1980, 5, MovieGenre.THRILLER);
+        Movie movie2 = new Movie("movieName2", 1980, 5, MovieGenres.THRILLER);
 
         when(movieRepo.findAll()).thenReturn(Arrays.asList(movie1, movie2));
 

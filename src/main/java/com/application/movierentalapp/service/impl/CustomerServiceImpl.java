@@ -18,14 +18,17 @@ import java.util.stream.Collectors;
 @Service
 public class CustomerServiceImpl implements CustomerService {
 
-    @Autowired
-    CustomerRepo customerRepo;
+    private final CustomerRepo customerRepo;
 
+    @Autowired
+    public CustomerServiceImpl(CustomerRepo customerRepo){
+        this.customerRepo = customerRepo;
+    }
 
     @Override
     public CustomerResponse createCustomer(CreateCustomerRequest createCustomerRequest) {
         Customer customer = new Customer(createCustomerRequest.getFirstName(), createCustomerRequest.getLastName(),
-                createCustomerRequest.getEmail(), createCustomerRequest.getTelephoneNumber());
+                createCustomerRequest.getEmail(), createCustomerRequest.getPhoneNumber());
         Customer savedCustomer = customerRepo.save(customer);
         CustomerResponse customerResponse = toCustomerResponse(savedCustomer);
         return customerResponse;
@@ -65,7 +68,7 @@ public class CustomerServiceImpl implements CustomerService {
 
     private CustomerResponse toCustomerResponse(Customer customer) {
         return new CustomerResponse(customer.getId(), customer.getFirstName(), customer.getLastName(), customer.getEmail(),
-                customer.getTelephoneNumber());
+                customer.getPhoneNumber());
     }
 
     private Customer findCustomerById(Integer id) throws CustomerNotFoundException {
